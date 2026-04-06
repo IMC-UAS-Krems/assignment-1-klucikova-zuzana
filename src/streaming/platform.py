@@ -7,7 +7,8 @@ and provides query methods for analytics.
 Classes to implement:
   - StreamingPlatform
 """
-from datetime import date, datetime, timedelta
+from datetime import (date, datetime, timedelta)
+from streaming.users import PremiumUser
 
 class StreamingPlatform:
     def __init__(self, name: str):
@@ -67,7 +68,32 @@ class StreamingPlatform:
         return total_minutes
 
     def avg_unique_tracks_per_premium_user(self, days: int = 30) -> float:
-        pass
+        premium_users = []
+        now = datetime.now()
+        start = now - timedelta(days)
+        total_tracks = 0
+
+        for user in self._users.values():
+            if isinstance(user, PremiumUser):
+                premium_users.append(user)
+        if len(premium_users) ==0:
+            return 0.0
+
+        for user in premium_users:
+            unique_tracks = []
+            for session in self._sessions:
+                if session.user == user:
+                    if session.timestamp >= start and session.timestamp <= now:
+                        track = session.track
+                        if track not in unique_tracks:
+                            unique_tracks.append(track)
+            total_tracks += len(unique_tracks)
+        average = total_tracks /len(premium_users)
+        return average
+
+
+
+
 
     def track_with_most_distinct_listeners(self):
         listeners = {}
@@ -80,8 +106,9 @@ class StreamingPlatform:
             track = session.track
             user = session.user
             if track not in listeners:
-                listeners[track] = set()
-            listeners[track].add(user)
+                listeners[track] = []
+            if user not in listeners[track]:
+                listeners[track].append(user)
 
         for track in listeners:
             count = len(listeners[track])

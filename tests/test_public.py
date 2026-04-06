@@ -89,7 +89,8 @@ class TestAvgUniqueTracksPremium:
     #       average for premium users. You'll need to count unique tracks
     #       per premium user and calculate the average.
     def test_correct_value(self, platform: StreamingPlatform) -> None:
-        pass
+        result = platform.avg_unique_tracks_per_premium_user()
+        assert result == 0.0
 
 
 # ===========================================================================

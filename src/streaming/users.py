@@ -18,11 +18,11 @@ class User:
         self.age = age
 
         if sessions is not None:
-            self.sessions: list["ListeningSession"] = list(sessions)
+            self.sessions = list(sessions)
         else:
             self.sessions= []
 
-    def add_session(self,session:"ListeningSession"):
+    def add_session(self,session):
         self.sessions.append(session)
 
     def total_listening_seconds(self):
@@ -47,11 +47,11 @@ class FamilyAccountUser(User):
     def __init__(self,user_id: str, name: str, age: int,  sub_users = None, sessions= None):
         super().__init__(user_id, name, age, sessions)
         if sub_users is not None:
-            self.sub_users: list["FamilyMember"] = list(sub_users)
+            self.sub_users = list(sub_users)
         else:
             self.sub_users= []
 
-    def add_sub_user(self, sub_user: "FamilyMember") -> None:
+    def add_sub_user(self, sub_user) -> None:
         self.sub_users.append(sub_user)
 
     def all_members(self) -> list[User]:
