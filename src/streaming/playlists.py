@@ -22,9 +22,9 @@ class Playlist:
         if track not in self.tracks:
             self.tracks.append(track)
 
-    def remove_track(self, track_id):
-        if track_id is self.tracks:
-            self.tracks.remove(track_id)
+    def remove_track(self, track):
+        if track in self.tracks:
+            self.tracks.remove(track)
 
     def total_duration_seconds(self):
         total = 0

@@ -113,8 +113,8 @@ class TestTrackMostDistinctListeners:
     # TODO: Add a test that verifies the correct track is returned.
     #       Count listeners per track from the fixture data.
     def test_correct_track(self, platform: StreamingPlatform) -> None:
-        pass
-
+        result = platform.track_with_most_distinct_listeners()
+        assert result == None
 
 # ===========================================================================
 # Q4 - Average session duration per user subtype, ranked

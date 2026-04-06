@@ -12,12 +12,12 @@ from datetime import date, datetime, timedelta
 class StreamingPlatform:
     def __init__(self, name: str):
         self.name = name
-        self._catalogue: dict[str, Track]= {}
-        self._users: dict[str,User]= {}
-        self._artists: dict[str, Artists]= {}
-        self._albums: dict[str, Album]= {}
-        self._playlists: dict[str, Playlist]= {}
-        self._sessions: list[ListeningSession]= []
+        self._catalogue = {}
+        self._users = {}
+        self._artists = {}
+        self._albums = {}
+        self._playlists = {}
+        self._sessions = []
 
     def add_track(self, track):
         self._catalogue[track.track_id] = track
@@ -68,6 +68,31 @@ class StreamingPlatform:
 
     def avg_unique_tracks_per_premium_user(self, days: int = 30) -> float:
         pass
+
+    def track_with_most_distinct_listeners(self):
+        listeners = {}
+        most_listened = 0
+        most_distinct_listeners = None
+        if len(self._sessions) == 0:
+            return None
+
+        for session in self._sessions:
+            track = session.track
+            user = session.user
+            if track not in listeners:
+                listeners[track] = set()
+            listeners[track].add(user)
+
+        for track in listeners:
+            count = len(listeners[track])
+            if count > most_listened:
+                most_listened = count
+                most_distinct_listeners = track
+        return most_distinct_listeners
+
+
+
+
 
 
 
