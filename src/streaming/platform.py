@@ -56,8 +56,6 @@ class StreamingPlatform:
     def all_tracks(self):
         return list(self._catalogue.values())
 
-
-
     def total_listening_time_minutes(self, start: datetime, end: datetime) -> float:
         total_seconds =0
         for session in self._sessions:
@@ -90,9 +88,6 @@ class StreamingPlatform:
             total_tracks += len(unique_tracks)
         average = total_tracks /len(premium_users)
         return average
-
-
-
 
 
     def track_with_most_distinct_listeners(self):
